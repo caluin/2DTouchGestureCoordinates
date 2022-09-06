@@ -1,0 +1,8 @@
+C:\Users\wenhaochen\Downloads\GTM二次开发库_Logical_Layer_V1.14.0.0.44_220818\Demo_Project\GtmLogicalLayerGetReportDataCSharpExample-2218\obj\Debug\GtmLogicalLayerGetReportDataCSharpExample.csproj.CoreCompileInputs.cache
+C:\Users\wenhaochen\Downloads\GTM二次开发库_Logical_Layer_V1.14.0.0.44_220818\Demo_Project\GtmLogicalLayerGetReportDataCSharpExample-2218\obj\Debug\GtmLogicalLayerTestingCSharpExample.exe.config
+C:\Users\wenhaochen\Downloads\GTM二次开发库_Logical_Layer_V1.14.0.0.44_220818\Demo_Project\GtmLogicalLayerGetReportDataCSharpExample-2218\obj\Debug\GtmLogicalLayerTestingCSharpExample.exe
+C:\Users\wenhaochen\Downloads\GTM二次开发库_Logical_Layer_V1.14.0.0.44_220818\Demo_Project\GtmLogicalLayerGetReportDataCSharpExample-2218\obj\Debug\GtmLogicalLayerTestingCSharpExample.pdb
+C:\Users\wenhaochen\Downloads\GtmLogicalLayerGetReportDataCSharpExample-2218\obj\Debug\GtmLogicalLayerGetReportDataCSharpExample.csproj.CoreCompileInputs.cache
+C:\Users\wenhaochen\Downloads\GtmLogicalLayerGetReportDataCSharpExample-2218\obj\Debug\GtmLogicalLayerTestingCSharpExample.exe.config
+C:\Users\wenhaochen\Downloads\GtmLogicalLayerGetReportDataCSharpExample-2218\obj\Debug\GtmLogicalLayerTestingCSharpExample.exe
+C:\Users\wenhaochen\Downloads\GtmLogicalLayerGetReportDataCSharpExample-2218\obj\Debug\GtmLogicalLayerTestingCSharpExample.pdb

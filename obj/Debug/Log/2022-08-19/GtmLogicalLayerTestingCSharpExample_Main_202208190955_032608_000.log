@@ -1,0 +1,15 @@
+2022-08-19 09:55:50.131 [24540] [SPECIAL] -----------------  log4z thread started!   ----------------------------
+2022-08-19 09:55:50.144 [24540] [SPECIAL] logger id=0 key=Main name=Main path=C:\Users\wenhaochen\Downloads\GtmLogicalLayerGetReportDataCSharpExample-2218\obj\Debug\Log\2022-08-19\ level=1 display=true
+2022-08-19 09:55:50.219 [23220] [SPECIAL] [CommDaemon.cpp][531] 5555 window[0] OpenDevice[0]("\\.\COM5")
+2022-08-19 09:55:50.221 [14688] [SPECIAL] [Stm32FxBoard.cpp][3496] ExePullInCallback \\.\COM5
+2022-08-19 09:55:54.400 [14688] [SPECIAL] [Stm32FxBoard.cpp][2245] INFO:Board Update Start!
+2022-08-19 09:55:54.531 [23220] [SPECIAL] [CommDaemon.cpp][437] 1111 window[0] CloseDevice("")
+2022-08-19 09:55:54.531 [23220] [SPECIAL] [Stm32FxBoard.cpp][3502] ExePullOutCallback 
+2022-08-19 09:55:55.182 [23220] [SPECIAL] [CommDaemon.cpp][531] 5555 window[0] OpenDevice[0]("\\.\COM5")
+2022-08-19 09:55:55.182 [23220] [SPECIAL] [Stm32FxBoard.cpp][3496] ExePullInCallback \\.\COM5
+2022-08-19 09:56:03.531 [23220] [SPECIAL] [CommDaemon.cpp][437] 1111 window[0] CloseDevice("")
+2022-08-19 09:56:03.531 [23220] [SPECIAL] [Stm32FxBoard.cpp][3502] ExePullOutCallback 
+2022-08-19 09:56:04.275 [23220] [SPECIAL] [CommDaemon.cpp][531] 5555 window[0] OpenDevice[0]("\\.\COM5")
+2022-08-19 09:56:04.275 [23220] [SPECIAL] [Stm32FxBoard.cpp][3496] ExePullInCallback \\.\COM5
+2022-08-19 09:56:04.982 [14688] [SPECIAL] [Stm32FxBoard.cpp][2340] INFO:Board Updata End!
+2022-08-19 09:58:21.790 [30516] [SPECIAL] [ProtoManager.cpp][138] CProtoManager::RcvProtoProcFunc Thread End

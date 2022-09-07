@@ -20,29 +20,71 @@ namespace GtmLogicalLayerTestingCSharpExample
             //*********************************************************
             string TpOrderName = string.Empty;
             string Input = string.Empty;
+            string DeviceConfig = string.Empty;
             try
             {
                 Input = args[0].ToString();
+                DeviceConfig = args[1].ToString();
+                if (Input != "h" && Input != "H" && Input != "L" && Input != "l")
+                {
+                    Input = "H";
+                }
+                if (DeviceConfig!="1" && DeviceConfig != "2" && DeviceConfig != "3" && DeviceConfig != "4")
+                {
+                    DeviceConfig = "1";
+                }
             }
             catch
             {
                 Input = "H";
+                DeviceConfig = "1";
             }
+
             if (Input == "H" || Input == "h")
             {
                 Console.WriteLine("Device will be configured to high resolution.");
-                TpOrderName = "GT6311_21.00.FF.08_CFGV1_20220808_Rx24Tx3_01_AA1&AA2&AA3.tporder";
+                if (DeviceConfig == "1")
+                {
+                    TpOrderName = "GT6311_21.00.FF.08_CFGV1_20220808_Rx24Tx3_01_AA1&AA2&AA3.tporder";
+                }
+                else if (DeviceConfig == "2")
+                {
+                    TpOrderName = "GT6311_21.00.FF.08_CFGV1_20220808_Rx24Tx3_02_AA1&AA2.tporder";
+                }
+                else if (DeviceConfig == "3")
+                {
+                    TpOrderName = "GT6311_21.00.FF.08_CFGV1_20220808_Rx24Tx3_03_AA2&AA3.tporder";
+                }
+                else if (DeviceConfig == "4")
+                {
+                    TpOrderName = "GT6311_21.00.FF.08_CFGV1_20220808_Rx24Tx3_04_AA2.tporder";
+                }
             }
+
             else if (Input == "L" || Input == "l")
             {
                 Console.WriteLine("Device will be configured to low resolution.");
-                TpOrderName = "GT6311_21.00.FF.08_CFGV1_20220808_Rx24Tx3_04_AA2.tporder";
+
+                if (DeviceConfig == "1")
+                {
+                    TpOrderName = "GT6311_21.00.FF.08_CFGV1_20220809_Rx16Tx3_01_AA1&AA2&AA3.tporder";
+                }
+                else if (DeviceConfig == "2")
+                {
+                    TpOrderName = "GT6311_21.00.FF.08_CFGV1_20220809_Rx16Tx3_02_AA1&AA2.tporder";
+                }
+                else if (DeviceConfig == "3")
+                {
+                    TpOrderName = "GT6311_21.00.FF.08_CFGV1_20220809_Rx16Tx3_03_AA2&AA3.tporder";
+                }
+                else if (DeviceConfig == "4")
+                {
+                    TpOrderName = "GT6311_21.00.FF.08_CFGV1_20220809_Rx16Tx3_04_AA2.tporder";
+                }
             }
-            else
-            {
-                Console.WriteLine("Device will be configured to default configuration, high resolution.");
-                TpOrderName = "GT6311-Glass-Base.tporder";
-            }
+
+            Console.WriteLine("Device Configuration is: " + DeviceConfig);
+            Console.WriteLine("Device TpOrder name is: " + TpOrderName);
 
             string TpOrderPath = "\\Tp_System\\Order\\" + TpOrderName;
             string ExePath = Environment.CurrentDirectory;

@@ -18,3 +18,9 @@ C:\Users\wenhaochen\Desktop\2DTouchGestureCoordinates\obj\Release\2DTouchCoordin
 C:\Users\wenhaochen\Desktop\2DTouchGestureCoordinates\obj\Release\2DTouchCoordinatesGesture.csproj.CoreCompileInputs.cache
 C:\Users\wenhaochen\Desktop\2DTouchGestureCoordinates\obj\Release\TouchCoordinatesGesture.exe
 C:\Users\wenhaochen\Desktop\2DTouchGestureCoordinates\obj\Release\TouchCoordinatesGesture.pdb
+C:\Users\wenhaochen\Desktop\temp\2DTouchGestureCoordinates\bin\Release\TouchCoordinatesGesture.exe.config
+C:\Users\wenhaochen\Desktop\temp\2DTouchGestureCoordinates\bin\Release\TouchCoordinatesGesture.exe
+C:\Users\wenhaochen\Desktop\temp\2DTouchGestureCoordinates\bin\Release\TouchCoordinatesGesture.pdb
+C:\Users\wenhaochen\Desktop\temp\2DTouchGestureCoordinates\obj\Release\2DTouchCoordinatesGesture.csproj.CoreCompileInputs.cache
+C:\Users\wenhaochen\Desktop\temp\2DTouchGestureCoordinates\obj\Release\TouchCoordinatesGesture.exe
+C:\Users\wenhaochen\Desktop\temp\2DTouchGestureCoordinates\obj\Release\TouchCoordinatesGesture.pdb

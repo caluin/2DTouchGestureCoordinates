@@ -136,6 +136,7 @@ namespace GtmLogicalLayerTestingCSharpExample
                         TestStructClass.CoordPoint p = point[i];
                         //wchen
                         output_file += string.Format("[{0,2:D}, {1,4:D}, {2,4:D}, {3,4:D}] ", p.trackId, p.x, p.y, p.size);
+                        RealtimeGesture_Calculation(file_path, p);
                     }
                 }
 
@@ -192,12 +193,23 @@ namespace GtmLogicalLayerTestingCSharpExample
                             }
                         }
                     }
-                    Console.WriteLine(output);
+                    if (rt_flag == false)
+                    {
+                        Console.WriteLine(output);
+                        File.AppendAllText(file_path, output+'\n');
+                    }
+                    else
+                    {
+                        Console.WriteLine("Hand Up Gesture Type = RealTimeGesture");
+                        File.AppendAllText(file_path, "Hand Up Gesture Type = RealTimeGesture\n");
+                        RealtimeGesture_Reset();
+                    }
                     //disable timer
                     touch = false;
                     stateTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                    Console.WriteLine("Finger Lifted.\n");
+                    File.AppendAllText(file_path, "Finger Lifted.\n\n\n");
                 }
-
 
                 if (output_file != string.Empty)
                 {
@@ -208,21 +220,17 @@ namespace GtmLogicalLayerTestingCSharpExample
                         Console.WriteLine("Finger touched, detecting gesture...");
                         File.AppendAllText(file_path, "Finger touched, detecting gesture..." + '\n');
                     }  
-                    //reset the timer to 1 second
-                    stateTimer.Change(1000, Timeout.Infinite);  
+                    
+                    //dump coordinates
                     File.AppendAllText(file_path, output_file + '\n');
-                }
+                    //write coordinates
+                    //Console.WriteLine(output_file);
 
-                //write coordinates
-                Console.WriteLine(output_file);
-
-                //write gesture
-                if (output != string.Empty)
-                {
-                    File.AppendAllText(file_path, output + '\n' + '\n');
-                    //Touch detected, disable timer
-                    stateTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                    //reset the timer to 0.25 second
+                    stateTimer.Change(250, Timeout.Infinite);  
                 }
+                
+
 
             }
             catch (Exception e)
@@ -238,8 +246,18 @@ namespace GtmLogicalLayerTestingCSharpExample
         public static System.Threading.Timer stateTimer;
         public static void  CheckStatus(Object stateInfo)
         {
-            File.AppendAllText(file_path, "No Gesture Detected!" + '\n' +'\n');
-            Console.WriteLine("No Gesture Detected!");
+            if (rt_flag == false)
+            {
+                File.AppendAllText(file_path, "No Gesture Detected!\nFinger Lifted.\n\n\n");
+                Console.WriteLine("No Gesture Detected!");
+            }
+            else
+            {
+                File.AppendAllText(file_path, "Hand Up Gesture Type = RealTimeGesture\nFinger Lifted.\n\n\n");
+                Console.WriteLine("Hand Up Gesture Type = RealTimeGesture");
+            }
+            Console.WriteLine("Finger Lifted.\n");
+            RealtimeGesture_Reset();
             touch = false;
             stateTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
@@ -256,6 +274,72 @@ namespace GtmLogicalLayerTestingCSharpExample
 
         private static GtmLogicalLayerInterface.EXT_TEST_CALLBACK VersionTestBeforeCallback = VersionTestBeforeCallBack;
         private static GtmLogicalLayerInterface.EXT_TEST_CALLBACK VersionTestFinishCallback = VersionTestFinishCallBack;
+        private static UInt16 x0=5000;
+        private static UInt16 y0=5000;
+        private static UInt16 z0=5000;
+        private static Int32 acc = 0;
+        private static bool rt_flag = false;
+        private static UInt16 count = 0;
+        private static bool rt_state = false;
+        private static void RealtimeGesture_Calculation(String filePath, TestStructClass.CoordPoint p)
+        {
+            if (rt_state == false)
+            {
+                if (p.x - x0 < 5)
+                {
+                    count++;
+                    if (count == 40)
+                    {
+                        rt_state = true;
+                        File.AppendAllText(file_path, "Realtime Gesture\n");
+                        Console.WriteLine("Realtime Gesture");
+                    }
+                }
+                else
+                {
+                    count = 0;
+                }
+            }
+
+            else
+            {
+                acc = acc+ (x0 - p.x);
+                if (acc >= 170)
+                {
+                    rt_flag = true;
+                    Console.WriteLine("Hand Up Gesture Type = GestSingleFingerH+");
+                    File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerH+\n");
+                    acc = 0;
+                }
+                else if (acc <= -170)
+                {
+                    Console.WriteLine("Hand Up Gesture Type = GestSingleFingerH-");
+                    File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerH-\n");
+                    acc = 0;
+                    rt_flag = true;
+                }
+            }
+            
+
+            x0 = p.x;
+            y0 = p.y;
+            z0 = p.size;
+    
+           // Console.WriteLine("{0},{1},{2}", x.ToString(),y.ToString(),z.ToString());            
+        }
+
+        private static void RealtimeGesture_Reset()
+        {
+            x0 = 5000;
+            y0 = 5000;
+            z0 = 5000;
+            acc = 0;
+            rt_flag = false;
+            rt_state = false;
+            count = 0;
+        }
+    
+
 
         private static void RegisterTestCallBack(int boardId)
         {

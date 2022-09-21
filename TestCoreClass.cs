@@ -131,12 +131,19 @@ namespace GtmLogicalLayerTestingCSharpExample
                 {
                     //wchen
                     output_file = "[ID,X,Y,SIZE]";
+
+                    if (coord.pointNum >2)
+                    {
+                        palmTouch = true;
+                    }
+
                     for (int i = 0; i < coord.pointNum && i < TestStructClass.MAX_TOUCH_POINT_NUM; i++)
                     {
                         TestStructClass.CoordPoint p = point[i];
                         //wchen
                         output_file += string.Format("[{0,2:D}, {1,4:D}, {2,4:D}, {3,4:D}] ", p.trackId, p.x, p.y, p.size);
                         RealtimeGesture_Calculation(file_path, p);
+                        RealtimeGesture_Calculation(gesture_file_path, p);
                     }
                 }
 
@@ -193,22 +200,33 @@ namespace GtmLogicalLayerTestingCSharpExample
                             }
                         }
                     }
-                    if (rtFlagX == false && rtFlagY == false)
+                    if (palmTouch == true)
+                    {
+                        Console.WriteLine("Hand Up Gesture Type = PalmTouch");
+                        File.AppendAllText(file_path, "Hand Up Gesture Type = PalmTouch\n");
+                        File.AppendAllText(gesture_file_path, "Hand Up Gesture Type = PalmTouch\n");
+                    }
+                    else if (rtFlagX == false && rtFlagY == false)
                     {
                         Console.WriteLine(output);
                         File.AppendAllText(file_path, output+'\n');
+                        File.AppendAllText(gesture_file_path, output + '\n');
                     }
                     else
                     {
                         Console.WriteLine("Hand Up Gesture Type = RealTimeGesture");
                         File.AppendAllText(file_path, "Hand Up Gesture Type = RealTimeGesture\n");
-                        RealtimeGesture_Reset();
-                    }
+                        File.AppendAllText(gesture_file_path, "Hand Up Gesture Type = RealTimeGesture\n");
+
+                    } 
+                    RealtimeGesture_Reset();
+                    palmTouch = false;
+                    touch = false; 
                     //disable timer
-                    touch = false;
                     stateTimer.Change(Timeout.Infinite, Timeout.Infinite);
                     Console.WriteLine("Finger Lifted.\n");
                     File.AppendAllText(file_path, "Finger Lifted.\n\n\n");
+                    File.AppendAllText(gesture_file_path, "Finger Lifted.\n\n\n");
                 }
 
                 if (output_file != string.Empty)
@@ -219,8 +237,9 @@ namespace GtmLogicalLayerTestingCSharpExample
                         touch = true;
                         Console.WriteLine("Finger touched, detecting gesture...");
                         File.AppendAllText(file_path, "Finger touched, detecting gesture..." + '\n');
-                    }  
-                    
+                        File.AppendAllText(gesture_file_path, "Finger touched, detecting gesture..." + '\n');
+                    }
+
                     //dump coordinates
                     File.AppendAllText(file_path, output_file + '\n');
                     //write coordinates
@@ -246,18 +265,28 @@ namespace GtmLogicalLayerTestingCSharpExample
         public static System.Threading.Timer stateTimer;
         public static void  CheckStatus(Object stateInfo)
         {
-            if (rtFlagX == false && rtFlagY == false)
+            if (palmTouch == true)
+            {
+                File.AppendAllText(file_path, "Hand Up Gesture Type = PalmTouch\nFinger Lifted.\n\n\n");
+                File.AppendAllText(gesture_file_path, "Hand Up Gesture Type = PalmTouch\nFinger Lifted.\n\n\n");
+                Console.WriteLine("Hand Up Gesture Type = PalmTouch");
+
+            }
+            else if (rtFlagX == false && rtFlagY == false)
             {
                 File.AppendAllText(file_path, "No Gesture Detected!\nFinger Lifted.\n\n\n");
+                File.AppendAllText(gesture_file_path, "No Gesture Detected!\nFinger Lifted.\n\n\n");
                 Console.WriteLine("No Gesture Detected!");
             }
             else
             {
                 File.AppendAllText(file_path, "Hand Up Gesture Type = RealTimeGesture\nFinger Lifted.\n\n\n");
+                File.AppendAllText(gesture_file_path, "Hand Up Gesture Type = RealTimeGesture\nFinger Lifted.\n\n\n");
                 Console.WriteLine("Hand Up Gesture Type = RealTimeGesture");
             }
             Console.WriteLine("Finger Lifted.\n");
             RealtimeGesture_Reset();
+            palmTouch = false;
             touch = false;
             stateTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
@@ -282,8 +311,8 @@ namespace GtmLogicalLayerTestingCSharpExample
         private static bool rtFlagX = false;
         private static bool rtFlagY = false;
         private static UInt16 stateCounter = 0;
-        private static UInt16 countY = 0;
         private static bool rt_state = false;
+        private static bool palmTouch = false;
         private static void RealtimeGesture_Calculation(String filePath, TestStructClass.CoordPoint p)
         {
             if (rt_state == false)
@@ -291,10 +320,11 @@ namespace GtmLogicalLayerTestingCSharpExample
                 if (p.x - x0 < 5 && p.y -y0 < 5 )
                 {
                     stateCounter++;
-                    if (stateCounter == 40)
+                    if (stateCounter == 50)
                     {
                         rt_state = true;
                         File.AppendAllText(file_path, "Realtime Gesture\n");
+                        File.AppendAllText(gesture_file_path, "Realtime Gesture\n");
                         Console.WriteLine("Realtime Gesture");
                     }
                 }           
@@ -312,32 +342,35 @@ namespace GtmLogicalLayerTestingCSharpExample
                     rtFlagX = true;
                     Console.WriteLine("Hand Up Gesture Type = GestSingleFingerH-");
                     File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerH-\n");
+                    File.AppendAllText(gesture_file_path, "Hand Up Gesture Type = GestSingleFingerH-\n");
                     accX = 0;
                 }
                 else if (accX <= -170 && rtFlagY==false)
                 {
                     Console.WriteLine("Hand Up Gesture Type = GestSingleFingerH+");
                     File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerH+\n");
+                    File.AppendAllText(gesture_file_path, "Hand Up Gesture Type = GestSingleFingerH+\n");
                     accX = 0;
                     rtFlagX = true;
                 }
-
+                /*
                 accY = accY + (y0- p.y);
                 if (accY >= 48 && rtFlagX == false)
                 {
                     rtFlagY = true;
                     Console.WriteLine("Hand Up Gesture Type = GestSingleFingerV+");
                     File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerV+\n");
+                    File.AppendAllText(gesture_file_path, "Hand Up Gesture Type = GestSingleFingerV+\n");
                     accY = 0;
                 }
                 else if (accY <= -48 && rtFlagX == false)
                 {
                     Console.WriteLine("Hand Up Gesture Type = GestSingleFingerV-");
                     File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerV-\n");
+                    File.AppendAllText(gesture_file_path, "Hand Up Gesture Type = GestSingleFingerV-\n");
                     accY = 0;
                     rtFlagY = true;
-                }
-
+                }*/
             }
             
 
@@ -549,6 +582,7 @@ namespace GtmLogicalLayerTestingCSharpExample
         }
 
         public static string file_path = string.Empty;
+        public static string gesture_file_path = string.Empty;
         private static bool touch = false;
         public static void CreateFile()
         {
@@ -557,6 +591,7 @@ namespace GtmLogicalLayerTestingCSharpExample
             if (!exists)
                 System.IO.Directory.CreateDirectory(Path);
             file_path = Path + "\\" + System.DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_log.txt";
+            gesture_file_path = Path + "\\" + System.DateTime.Now.ToString("yyyy-dd-M--HH-mm-ss") + "_gesture_log.txt";
         }
         #endregion
     }

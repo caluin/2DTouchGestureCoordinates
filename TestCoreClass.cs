@@ -193,7 +193,7 @@ namespace GtmLogicalLayerTestingCSharpExample
                             }
                         }
                     }
-                    if (rt_flag == false)
+                    if (rtFlagX == false && rtFlagY == false)
                     {
                         Console.WriteLine(output);
                         File.AppendAllText(file_path, output+'\n');
@@ -226,8 +226,8 @@ namespace GtmLogicalLayerTestingCSharpExample
                     //write coordinates
                     //Console.WriteLine(output_file);
 
-                    //reset the timer to 0.25 second
-                    stateTimer.Change(250, Timeout.Infinite);  
+                    //reset the timer to 1 second
+                    stateTimer.Change(1000, Timeout.Infinite);  
                 }
                 
 
@@ -246,7 +246,7 @@ namespace GtmLogicalLayerTestingCSharpExample
         public static System.Threading.Timer stateTimer;
         public static void  CheckStatus(Object stateInfo)
         {
-            if (rt_flag == false)
+            if (rtFlagX == false && rtFlagY == false)
             {
                 File.AppendAllText(file_path, "No Gesture Detected!\nFinger Lifted.\n\n\n");
                 Console.WriteLine("No Gesture Detected!");
@@ -277,47 +277,67 @@ namespace GtmLogicalLayerTestingCSharpExample
         private static UInt16 x0=5000;
         private static UInt16 y0=5000;
         private static UInt16 z0=5000;
-        private static Int32 acc = 0;
-        private static bool rt_flag = false;
-        private static UInt16 count = 0;
+        private static Int32 accX = 0;
+        private static Int32 accY = 0;
+        private static bool rtFlagX = false;
+        private static bool rtFlagY = false;
+        private static UInt16 stateCounter = 0;
+        private static UInt16 countY = 0;
         private static bool rt_state = false;
         private static void RealtimeGesture_Calculation(String filePath, TestStructClass.CoordPoint p)
         {
             if (rt_state == false)
             {
-                if (p.x - x0 < 5)
+                if (p.x - x0 < 5 && p.y -y0 < 5 )
                 {
-                    count++;
-                    if (count == 40)
+                    stateCounter++;
+                    if (stateCounter == 40)
                     {
                         rt_state = true;
                         File.AppendAllText(file_path, "Realtime Gesture\n");
                         Console.WriteLine("Realtime Gesture");
                     }
-                }
+                }           
                 else
                 {
-                    count = 0;
+                    stateCounter = 0;
                 }
             }
 
             else
             {
-                acc = acc+ (x0 - p.x);
-                if (acc >= 170)
+                accX = accX+ (x0 - p.x);
+                if (accX >= 170 && rtFlagY==false)
                 {
-                    rt_flag = true;
-                    Console.WriteLine("Hand Up Gesture Type = GestSingleFingerH+");
-                    File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerH+\n");
-                    acc = 0;
-                }
-                else if (acc <= -170)
-                {
+                    rtFlagX = true;
                     Console.WriteLine("Hand Up Gesture Type = GestSingleFingerH-");
                     File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerH-\n");
-                    acc = 0;
-                    rt_flag = true;
+                    accX = 0;
                 }
+                else if (accX <= -170 && rtFlagY==false)
+                {
+                    Console.WriteLine("Hand Up Gesture Type = GestSingleFingerH+");
+                    File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerH+\n");
+                    accX = 0;
+                    rtFlagX = true;
+                }
+
+                accY = accY + (y0- p.y);
+                if (accY >= 48 && rtFlagX == false)
+                {
+                    rtFlagY = true;
+                    Console.WriteLine("Hand Up Gesture Type = GestSingleFingerV+");
+                    File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerV+\n");
+                    accY = 0;
+                }
+                else if (accY <= -48 && rtFlagX == false)
+                {
+                    Console.WriteLine("Hand Up Gesture Type = GestSingleFingerV-");
+                    File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerV-\n");
+                    accY = 0;
+                    rtFlagY = true;
+                }
+
             }
             
 
@@ -333,10 +353,11 @@ namespace GtmLogicalLayerTestingCSharpExample
             x0 = 5000;
             y0 = 5000;
             z0 = 5000;
-            acc = 0;
-            rt_flag = false;
+            accX = 0;
+            rtFlagX = false;
+            rtFlagY = false;
             rt_state = false;
-            count = 0;
+            stateCounter = 0;
         }
     
 

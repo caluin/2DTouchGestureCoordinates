@@ -337,7 +337,7 @@ namespace GtmLogicalLayerTestingCSharpExample
             else
             {
                 accX = accX+ (x0 - p.x);
-                if (accX >= 170 && rtFlagY==false)
+                if (accX >= 237 && rtFlagY==false)
                 {
                     rtFlagX = true;
                     Console.WriteLine("Hand Up Gesture Type = GestSingleFingerH-");
@@ -345,7 +345,7 @@ namespace GtmLogicalLayerTestingCSharpExample
                     File.AppendAllText(gesture_file_path, "Hand Up Gesture Type = GestSingleFingerH-\n");
                     accX = 0;
                 }
-                else if (accX <= -170 && rtFlagY==false)
+                else if (accX <= -237 && rtFlagY==false)
                 {
                     Console.WriteLine("Hand Up Gesture Type = GestSingleFingerH+");
                     File.AppendAllText(file_path, "Hand Up Gesture Type = GestSingleFingerH+\n");
